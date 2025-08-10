@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HASHEM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #0c081e;
+            color: #ffffff;
+            direction: rtl;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% -20%, #3a0090, #0c081e 70%);
+        }
+
+        .glowing-text .glowing-letter {
+            text-shadow: 0 0 5px #a855f7, 0 0 10px #a855f7, 0 0 20px #a855f7, 0 0 40px #a855f7;
+            font-size: 3rem; /* Adjusted for mobile */
+            font-weight: 700;
+            display: inline-block;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @media (min-width: 768px) {
+            .glowing-text .glowing-letter {
+                font-size: 8rem;
+            }
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #a855f7, 0 0 10px #a855f7, 0 0 20px #a855f7, 0 0 30px #a855f7;
+            }
+            to {
+                text-shadow: 0 0 10px #a855f7, 0 0 20px #a855f7, 0 0 40px #a855f7, 0 0 60px #a855f7;
+            }
+        }
+
+        .glowing-arc {
+            position: absolute;
+            top: -20%;
+            left: 50%;
+            transform: translateX(-50%) rotate(180deg);
+            width: 150vw;
+            height: 100vw;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-bottom-color: #a855f7;
+            box-shadow: 0 0 150px #a855f7;
+            opacity: 0.5;
+        }
+        
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+        
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card-bg {
+            background: rgba(43, 23, 76, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glowing-phone {
+            position: relative;
+        }
+        .glowing-phone::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            background: radial-gradient(circle at center, #a855f7, transparent 70%);
+            z-index: -1;
+            border-radius: 1rem;
+            opacity: 0.5;
+            animation: glow-pulse 3s infinite ease-in-out;
+        }
+        @keyframes glow-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        /* Mobile Menu styles */
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(12, 8, 30, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .mobile-menu.active {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+    </style>
+</head>
+<body class="selection:bg-purple-600 selection:text-white">
+    <header class="fixed top-0 left-0 right-0 z-50 p-4 lg:px-24 flex justify-between items-center bg-black bg-opacity-20 backdrop-blur-sm shadow-lg">
+        <div class="text-xl md:text-3xl font-bold text-white tracking-widest">
+            Hashem ALwali
+        </div>
+        
+        <nav class="hidden lg:flex flex-1 justify-center gap-8">
+            <a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">الرئسيه</a>
+            <a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">الدعم</a>
+            <a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">الادارة</a>
+            <a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">الدعم الفني</a>
+            <a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">الشكاوي</a>
+        </nav>
+        
+        <div class="flex items-center space-x-4">
+            <a href="#" class="text-gray-300 hover:text-white transition-colors duration-300 hidden md:block">EN</a>
+            <button class="bg-transparent text-white px-4 py-2 rounded-full border border-gray-600 hover:bg-gray-700 transition-colors duration-300 hidden md:block">التسجيل</button>
+            <button class="bg-purple-600 text-white px-4 py-2 rounded-full font-bold shadow-lg shadow-purple-900 hover:bg-purple-700 transition-colors duration-300 text-sm md:text-base">اشتراك الاعضاء</button>
+
+            <button id="mobile-menu-button" class="text-white lg:hidden">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <nav id="mobile-menu" class="mobile-menu lg:hidden">
+            <a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">الرئسيه</a>
+            <a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">الدعم</a>
+            <a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">الادارة</a>
+            <a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">الدعم الفني</a>
+            <a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">الشكاوي</a>
+            <a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">EN</a>
+            <button class="bg-transparent text-white px-4 py-2 rounded-full border border-gray-600 hover:bg-gray-700 transition-colors duration-300 w-full mt-2">التسجيل</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="min-h-screen flex flex-col justify-center items-center text-center pt-24 px-4 relative overflow-hidden">
+            <div class="glowing-arc"></div>
+            <div class="glowing-text">
+                <span class="glowing-letter">H</span>
+                <span class="glowing-letter">A</span>
+                <span class="glowing-letter">S</span>
+                <span class="glowing-letter">H</span>
+                <span class="glowing-letter">E</span>
+                <span class="glowing-letter">M</span>
+            </div>
+            <h2 class="text-3xl md:text-6xl font-bold mt-8 z-10 scroll-reveal">موقع شخصي</h2>
+            <button class="mt-8 px-6 py-3 bg-purple-600 text-white rounded-full text-lg font-bold shadow-xl shadow-purple-900 hover:bg-purple-700 transition-all duration-300 z-10 scroll-reveal">
+                ضغط
+            </button>
+            <p class="mt-4 text-gray-400 z-10 scroll-reveal">قيد التطوير</p>
+        </section>
+
+        <section class="py-16 px-4 md:px-24 grid md:grid-cols-2 gap-8 items-center scroll-reveal">
+            <div class="flex justify-center md:justify-end order-2 md:order-1">
+                <div class="relative w-full max-w-sm h-80 flex items-center justify-center">
+                    <div class="absolute w-56 h-56 bg-purple-600 rounded-full blur-3xl opacity-30 animate-pulse"></div>
+                    <div class="w-56 h-56 bg-slate-800 rounded-full flex items-center justify-center text-3xl font-bold card-bg border-purple-600">
+                        <i class="fas fa-globe-americas fa-spin text-purple-400 text-6xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="md:text-right text-center order-1 md:order-2">
+                <h2 class="text-3xl md:text-5xl font-bold leading-tight"> المهندس هاشم عبدالمجيد احمد الولي</h2>
+                <p class="mt-4 text-gray-400 text-base">
+                    طالب سنه ثانيه
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                    <div class="flex items-center justify-center md:justify-start gap-2 card-bg p-4">
+                        <i class="fas fa-check-circle text-purple-500"></i>
+                        <p class="text-gray-300"> رقم الخاص 779655615</p>
+                    </div>
+                    <div class="flex items-center justify-center md:justify-start gap-2 card-bg p-4">
+                        <i class="fas fa-check-circle text-purple-500"></i>
+                        <p class="text-gray-300"> تقنيه معلومات</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="py-16 px-4 md:px-24 text-center scroll-reveal">
+            <h2 class="text-3xl md:text-5xl font-bold leading-tight">المشاريع الجاهزه</h2>
+            <button class="mt-6 px-6 py-3 bg-purple-600 text-white rounded-full text-lg font-bold shadow-xl shadow-purple-900 hover:bg-purple-700 transition-all duration-300">
+                ضغط للدخول
+            </button>
+        </section>
+
+    </main>
+
+    <footer class="p-8 text-center text-gray-500 text-sm">
+        <p>&copy; 2025. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    } else {
+                        entry.target.classList.remove('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+            });
+            scrollRevealElements.forEach(el => observer.observe(el));
+
+            // Mobile menu functionality
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
